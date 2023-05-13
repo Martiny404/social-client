@@ -78,13 +78,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				className={cm(button_variants({ variant, size, className }), {
 					'flex-row-reverse': rightIcon,
 					'cursor-wait': loading,
+					'justify-center': !icon || !children,
 				})}
 				disabled={loading}
 				{...props}
 			>
 				{loading && (
 					<Icon
-						className='animate-spin -ml-1'
+						className='animate-spin -ml-1 w-5 h-5'
 						icon='spinner'
 						stroke='currentColor'
 					/>

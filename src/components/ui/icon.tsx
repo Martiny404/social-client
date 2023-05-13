@@ -140,6 +140,8 @@ const icons = {
 	write_20: 'write_20',
 	write_fill_20: 'write_fill_20',
 	write_outline_24: 'write_outline_24',
+	chevron_up_outline_20: 'chevron_up_outline_20',
+	dropdown_outline_20: 'dropdown_outline_20',
 };
 
 export type IconType = keyof typeof icons;
@@ -154,7 +156,7 @@ export const Icon: FC<SVGIconProps> = ({
 	...props
 }): JSX.Element => {
 	return (
-		<svg className={clsx('w-6 h-6 fill-current', className)} {...props}>
+		<svg className={clsx('fill-current', className)} {...props}>
 			<use xlinkHref={`/sprite.svg#${icon}`} />
 		</svg>
 	);

@@ -17,12 +17,15 @@ body {
 	--steel-gray: rgba(174, 183, 194, 0.2);
 	--gray-chateau: #99a2ad;
 	--heather: #b8c1cc;
+	--regent-gray: #818c99;
 	--pale-sky: #6d7885;
 	--iron: #d7d8d9;
 	--crimson: #e64646;
 	--coral-red: #ff3347;
 	--athens-gray: #f2f3f5;
 	--light-pink: #faebeb;
+	--shark: #19191a;
+	--mine-shaft: #292929;
 	--transparent-black: rgba(0, 0, 0, 0.12);
 	--transparent-midnight: rgba(0, 28, 61, 0.05);
 	--transparent-white: rgba(255, 255, 255, 0.2);
@@ -130,6 +133,7 @@ body {
 	--overlay-primary: var(--curious-blue-1);
 	--overlay-secondary: var(--transparent-midnight);
 	--overlay-secondary-hover: var(--transparent-black);
+	--form-bg: var(--athens-gray);
 }
 
 [data-theme='dark'] {
@@ -139,4 +143,26 @@ body {
 	--overlay-primary: var(--white);
 	--overlay-secondary: var(--transparent-white);
 	--overlay-secondary-hover: var(--hover-transparent-white);
+	--form-bg: var(--mine-shaft);
+}
+
+.checkbox-ui:checked + .checkbox-ui-fake {
+	@apply bg-curious-blue-1 border-none;
+}
+
+.checkbox-ui:checked + .checkbox-ui-fake .checkbox-ui-fake-icon {
+	@apply opacity-100;
+}
+
+.radio-ui-fake::before {
+	content: '';
+	@apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 block w-[10px] h-[10px] rounded-full bg-transparent transition-colors ease-in-out duration-200;
+}
+
+.radio-ui:checked + .radio-ui-fake {
+	@apply border-curious-blue-1;
+}
+
+.radio-ui:checked + .radio-ui-fake::before {
+	@apply bg-curious-blue-1;
 }

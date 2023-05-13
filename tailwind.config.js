@@ -9,6 +9,8 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
+				'form-bg': 'var(--form-bg)',
+				'regent-gray': 'var(--regent-gray)',
 				'overlay-secondary-hover': 'var(--overlay-secondary-hover)',
 				'overlay-secondary': 'var(--overlay-secondary)',
 				'overlay-primary': 'var(--overlay-primary)',
