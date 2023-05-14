@@ -1,7 +1,11 @@
-import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from 'react';
-import clsx from 'clsx';
-import { FieldError } from 'react-hook-form';
+import {
+	DetailedHTMLProps,
+	InputHTMLAttributes,
+	ReactNode,
+	forwardRef,
+} from 'react';
 import { Icon } from './icon';
+import { cm } from '@/libs/cm';
 
 export interface CheckboxProps
 	extends DetailedHTMLProps<
@@ -9,7 +13,7 @@ export interface CheckboxProps
 		HTMLInputElement
 	> {
 	placeholder: string;
-	error?: Error;
+	error?: string;
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
@@ -23,18 +27,28 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 						type='checkbox'
 						{...props}
 					/>
-					<span className='relative w-[25px] h-[25px] rounded-radius-8 border-2 border-heather  transition-colors ease-in-out duration-200 checkbox-ui-fake'>
+					<span
+						className={cm(
+							'relative w-[25px] h-[25px] rounded-radius-8 border-2 border-heather  transition-colors ease-in-out duration-200 checkbox-ui-fake',
+							{
+								'border-crimson': error,
+							}
+						)}
+					>
 						<Icon
 							className='fill-white opacity-0 transition-opacity ease-in-out duration-200 checkbox-ui-fake-icon w-[16px] h-[16px] absolute
 							top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'
 							icon='check_20'
 						/>
 					</span>
-					<span className='ml-[13px] tracking-ls-1 text-base'>
+					<span
+						className={cm('ml-[13px] tracking-ls-1 text-base', {
+							'text-crimson': error,
+						})}
+					>
 						{placeholder}
 					</span>
 				</label>
-				{error && <div className={''}>{error.message}</div>}
 			</div>
 		);
 	}

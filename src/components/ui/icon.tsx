@@ -156,7 +156,7 @@ export const Icon: FC<SVGIconProps> = ({
 	...props
 }): JSX.Element => {
 	return (
-		<svg className={clsx('fill-current', className)} {...props}>
+		<svg className={clsx('w-5 h-5 fill-current', className)} {...props}>
 			<use xlinkHref={`/sprite.svg#${icon}`} />
 		</svg>
 	);

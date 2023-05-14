@@ -1,21 +1,26 @@
-import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from 'react';
+import {
+	DetailedHTMLProps,
+	InputHTMLAttributes,
+	ReactNode,
+	forwardRef,
+} from 'react';
 import clsx from 'clsx';
-import { Icon, IconType } from './icon';
+import { cm } from '@/libs/cm';
+import { FieldError } from 'react-hook-form';
 
 export interface TextInputProps
 	extends DetailedHTMLProps<
 		InputHTMLAttributes<HTMLInputElement>,
 		HTMLInputElement
 	> {
-	error?: Error;
+	error?: string;
 	label?: string;
-	icon?: IconType;
-	iconClick?: () => void;
+	rightSection?: ReactNode;
 }
 
 export const Input = forwardRef<HTMLInputElement, TextInputProps>(
 	(
-		{ className, error, label, icon, iconClick = () => {}, ...props },
+		{ className, error, label, type, rightSection, ...props },
 		ref
 	): JSX.Element => {
 		return (
@@ -27,25 +32,23 @@ export const Input = forwardRef<HTMLInputElement, TextInputProps>(
 				)}
 				<label className='relative'>
 					<input
-						type='text'
-						className={clsx(
+						type={type}
+						className={cm(
 							'w-full bg-form-bg border-[0.5px] border-transparent-black rounded-radius-8 p-3 outline-curious-blue-1 text-primary-color tracking-ls-1 leading-5 outline-[0.5px] placeholder:text-regent-gray',
 							{
-								'bg-light-pink border-crimson outline-crimson': error,
+								'text-crimson border-crimson': error,
 							}
 						)}
 						ref={ref}
 						{...props}
 					/>
-					{icon && (
-						<Icon
-							icon={icon}
-							className='absolute top-1/2 right-[10px] -translate-y-1/2 cursor-pointer w-5 h-5'
-							onClick={iconClick}
-						/>
+					{rightSection && (
+						<span className='absolute top-1/2 right-[10px] -translate-y-1/2 cursor-pointer flex items-center'>
+							{rightSection}
+						</span>
 					)}
 				</label>
-				{error && <div className='mt-2 text-crimson'>{error.message}</div>}
+				{error && <div className='mt-2 text-crimson'>{error}</div>}
 			</div>
 		);
 	}

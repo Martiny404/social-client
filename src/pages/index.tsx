@@ -2,11 +2,13 @@ import { withLayout } from '@/components/layouts/main-layout';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/chekbox';
 import { Icon } from '@/components/ui/icon';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/inputs/input';
+import { PasswordInput } from '@/components/ui/inputs/password-input';
 import { Paragraph } from '@/components/ui/paragraph';
 import { RadioButton } from '@/components/ui/radio';
 import { Select } from '@/components/ui/select';
 import { Title } from '@/components/ui/title';
+import { validEmail } from '@/shared/valid-email';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 const data = [
@@ -40,12 +42,6 @@ const data = [
 	},
 ];
 
-interface F {
-	select: string;
-	check: boolean;
-	pol: string;
-}
-
 const sex = [
 	{
 		label: 'Мужской',
@@ -61,14 +57,23 @@ const sex = [
 	},
 ];
 
+interface F {
+	select: string;
+	check: boolean;
+	pol: string;
+	password: string;
+	email: string;
+}
+
 function Home() {
-	const { control, setValue, handleSubmit, register } = useForm<F>({
+	const {
+		control,
+		setValue,
+		handleSubmit,
+		register,
+		formState: { errors },
+	} = useForm<F>({
 		mode: 'onChange',
-		defaultValues: {
-			check: true,
-			pol: 'empty',
-			select: 'olivie',
-		},
 	});
 
 	const onSubmit: SubmitHandler<F> = data => {
@@ -78,22 +83,51 @@ function Home() {
 	return (
 		<div>
 			<h1 className='text-6xl'>hello</h1>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form className='max-w-lg' onSubmit={handleSubmit(onSubmit)}>
 				<Controller
 					control={control}
 					name='select'
-					render={({ field: { value } }) => (
-						<Select
-							data={data}
-							id='menu-select'
-							initialValue={value}
-							onChangeSelected={(value: string) => setValue('select', value)}
-							className='max-w-sm'
-							label='Выберите элемент'
-						/>
+					render={({ field: { value, onChange } }) => (
+						<Select data={data} onChange={onChange} />
 					)}
 				/>
-				<Checkbox placeholder='Вы согласы?' {...register('check')} />
+
+				<PasswordInput
+					error={errors.password?.message}
+					label='Пароль'
+					placeholder='Введите пароль'
+					{...register('password', {
+						required: 'Пароль обязательное поле!',
+						minLength: {
+							message: 'Минимальная длина - 10 символов',
+							value: 10,
+						},
+					})}
+				/>
+				<Input
+					{...register('email', {
+						required: 'Email обязательное поле!',
+						pattern: {
+							value: validEmail,
+							message: 'Некорректный емайл!',
+						},
+					})}
+					type='email'
+					error={errors.email?.message}
+					label='Email'
+					placeholder='Введите email'
+					rightSection={
+						<Icon icon={'mail_20'} onClick={() => console.log('asdasd')} />
+					}
+				/>
+
+				<Checkbox
+					placeholder='Вы согласы?'
+					{...register('check', {
+						required: 'Обязательное поле!',
+					})}
+					error={errors.check?.message}
+				/>
 				{sex.map(item => (
 					<RadioButton
 						key={item.value}
